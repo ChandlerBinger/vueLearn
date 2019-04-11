@@ -17,15 +17,29 @@
                 {{todo}}
             </li>
         </ul>
+        <ol>
+            <todo-item v-for="item in group" :items="item" :key="item.id"></todo-item>
+        </ol>
         <button v-on:click="reverseMessage"></button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
+        Vue.component('todo-item',{
+            props: ['items'],
+            template:'<li>{{items.text}}</li>'
+        })
         var app = new Vue({
             el: "#app",
             data: {
                 message: '页面加载于 ',
-                todos: [111,222,333]
+                todos: [111,222,333],
+                group: [{
+                    id: 0,
+                    text:'组件中template绑定的数据是items，而不是item'
+                },{
+                    id: 1,
+                    text: '这点需注意'
+                }]
             },
             methods:{
                 reverseMessage(){
@@ -33,6 +47,7 @@
                 }
             }
         })
+        
     </script>
 </body>
 </html>

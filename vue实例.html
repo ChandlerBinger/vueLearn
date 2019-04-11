@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" v-cloak>
+        {{a}}
+        <br>
+        {{b}}
+        <div @click= "a=3">{{a}}</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        var obj = {
+            a: "我是初始data中的属性",
+            b: '设置了初始值就会显示b,不设置初始值就会报错'
+        };
+        // 使用Object.freeze()方法可以使这个变量不能被改变
+        Object.freeze(obj);
+
+        var vm = new Vue({
+            el: "#app",
+            data: obj,
+            methods:{
+
+            },
+            //注意： 周期函数定义时不要使用this，因为箭头函数没有this,this会作为变量一直向上级词法作用域里查找，会报错
+            created: function(){
+                console.log('a is '+ this.a);
+            }
+        })
+        console.log(vm.a);
+        vm.b  = '我是后添加的属性';//这行在使用了object.freeze方法后会报错
+        console.log(vm.b);
+        
+
+        // =====//
+        vm.$watch('a',function(newValue,oldValue){
+            //这个回调将在a的值改变后调用
+            console.log(oldValue,newValue);
+        })
+        vm.a = 1;//这行在使用了object.freeze方法后会报错
+        vm.a = 2;//这行在使用了object.freeze方法后会报错
+    </script>
+</body>
+</html>
